@@ -1,3 +1,5 @@
+use std::ops::{Add};
+
 trait Animal {
     fn create(name: &'static str) -> Self;
 
@@ -68,6 +70,38 @@ fn traits() {
     println!("sum = {}", a.sum());
 }
 
+// Operator Overloading
+#[derive(Debug)]
+struct Complex<T> {
+    re: T,
+    im: T
+}
+
+impl<T> Complex<T> {
+    fn new(re: T, im: T) -> Complex<T> {
+        Complex::<T> { re, im }
+    }
+}
+
+impl Add for Complex<i32> {
+    type Output = Complex<i32>;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Complex {
+            re: self.re + rhs.re,
+            im: self.im + rhs.im
+        }
+    }
+}
+
+fn operator_overloading() {
+    let mut a = Complex::new(1, 2);
+    let mut b = Complex:: new(3, 4);
+    
+    println!("{:?}", a + b);
+}
+
 fn main() {
-    traits();
+    //traits();
+    operator_overloading();
 }
